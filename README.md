@@ -15,7 +15,7 @@
 - Фреймворк [sails.js](http://sailsjs.org)
 - СУБД [PostgreSQL](http://www.postgresql.org)
 - Базовые стили и компоненты: [Bootstrap](http://getbootstrap.com)
-- [iQuery](https://jquery.com)
+- JavaScript на стороне клиента: [iQuery](https://jquery.com)
 - Загрузка файлов: [plupload](http://www.plupload.com)
 - Работа с картами: [Leaflet](http://leafletjs.com)
 - web-шаблоны: [Jade](http://jade-lang.com)
