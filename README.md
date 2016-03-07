@@ -8,7 +8,14 @@
 - Качество и понятность кода
 - Время реализации поставленной задачи
 
-Приложение реализовано на основе [node.js](https://nodejs.org) с использованием фреймворка [sails.js](http://sailsjs.org). В качестве СУБД использована СУБД [PostgreSQL](http://www.postgresql.org)
+Используемые технологии и компоненты:
+- Базовая платформа: [node.js](https://nodejs.org)
+- Фреймворк [sails.js](http://sailsjs.org)
+- СУБД [PostgreSQL](http://www.postgresql.org)
+- Базовые стили и компоненты: [Bootstrap](http://getbootstrap.com)
+- [iQuery](https://jquery.com)
+- Загрузка файлов: [plupload](http://www.plupload.com)
+- Работа с картами: [Leaflet](http://leafletjs.com)
 
 ## Создание рабочего окружения
 1. Установить последнюю стабильную версию [node.js](https://nodejs.org) (Если Вы работаете в Linux, то лучше устанавливать из исходников)
