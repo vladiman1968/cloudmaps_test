@@ -14,5 +14,18 @@
 2. Установить глобально [sails.js](http://sailsjs.org)
 3. Установить [git](https://git-scm.com)
 4. Клонировать [этот репозиторий](https://github.com/alexd1971/cloudmaps_test)
-5. 
-a [Sails](http://sailsjs.org) application
+5. Установить локально СУБД [PostgreSQL](http://www.postgresql.org)
+6. Создать в СУБД пользователя test с паролем test
+7. Создать БД test с владельцем test
+8. Создать структуру БД test с использованием прилагаемого дампа test.backup (см. корневой каталог проекта)
+9. Перейти в каталог проекта.
+10. Установить зависимые node.js- и sails.js-модули с помощью команды: 
+  
+    $ npm install
+
+11. Запустить приложение с помощью команды:  
+  
+    $ sails lift
+
+12. 
+
