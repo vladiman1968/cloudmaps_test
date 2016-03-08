@@ -25,7 +25,7 @@
 1. Установить последнюю стабильную версию [node.js](https://nodejs.org) (Если Вы работаете в Linux, то лучше устанавливать из исходников)
 2. Установить глобально [sails.js](http://sailsjs.org)
 3. Установить [git](https://git-scm.com)
-4. Клонировать [этот репозиторий](https://github.com/alexd1971/cloudmaps_test) или [скачать его zip-архив](https://github.com/alexd1971/cloudmaps_test/archive/master.zip)
+4. Клонировать [этот репозиторий](https://github.com/neiromancer/cloudmaps_test) или [скачать его zip-архив](https://github.com/neiromancer/cloudmaps_test/archive/master.zip)
 5. Установить локально СУБД [PostgreSQL](http://www.postgresql.org)
 6. Создать в СУБД пользователя test с паролем test
 7. Создать БД test с владельцем test
