@@ -11,6 +11,7 @@
 - Время реализации поставленной задачи
 
 Используемые технологии и компоненты:
+- Система контроля версий: [Git](https://git-scm.com)
 - Базовая платформа: [node.js](https://nodejs.org)
 - Фреймворк [sails.js](http://sailsjs.org)
 - СУБД [PostgreSQL](http://www.postgresql.org)
