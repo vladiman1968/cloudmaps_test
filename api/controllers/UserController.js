@@ -232,7 +232,7 @@ module.exports = {
 
   avatar: function(req, res){
     var fs = require('fs');
-    var avatar_dir = sails.config.rootPath + '/avatars/';
+    var avatar_dir = sails.config.appPath + '/avatars/';
     if(req.method == 'GET'){
       var avatar = avatar_dir + req.param('id') + '.jpg';
       fs.stat(avatar, function(error, stats){
