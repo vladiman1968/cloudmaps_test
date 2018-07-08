@@ -67,7 +67,7 @@ module.exports = {
             if(user.password == crypto.createHash('sha256').update(req.param('password')).digest('hex')){
               req.session.user = user;
                if(user.active){
-                 return res.redirect('/user/profile/'+user.id);
+                 return res.redirect('/user/profile/'+user.username);
                }
                else{
                  return res.redirect('user/email/');          
@@ -111,7 +111,7 @@ module.exports = {
   },
 
   profile: function(req, res){
-    User.findOne(req.param('id')).exec(function(error, user){
+    User.findOne({username: req.param('id')}).exec(function(error, user){
       if(error){
         res.view('user/error',{message: 'Ошибка: ' + error.message});
       }
