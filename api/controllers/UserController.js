@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UserController
  *
  * @description :: Server-side logic for managing users
@@ -18,26 +18,7 @@ module.exports = {
           res.view('user/error', {message: 'При регистрации пользователя произошла ошибка: ' + error.message});
         }
         else{
-          var nodemailer = require('nodemailer');
-          var smtpTransport = require('nodemailer-smtp-transport');
-          var transporter = nodemailer.createTransport(smtpTransport({
-              host: 'localhost',
-              port: 25,
-              ignoreTLS: true
-            })
-          );
-          var mailOptions ={
-            from: 'test@cloudmaps.ru' ,
-            to: model.email,
-            subject: 'User Activation Email',
-            text: 'http://localhost:1337/user/register/?id='+data.id+'&t='+model.password
-          };
-          transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-              res.view('user/error', {message: 'При регистрации пользователя произошла ошибка: ' + error.message});
-            }
-            else res.view('user/after_register');
-          });
+          EmailService.sendMail(res,data.id,model.password,model.email);
         }
       });
     }
@@ -79,23 +60,53 @@ module.exports = {
           res.view('user/error',{message: 'При проверке логина и пароля произошла ошибка: ' + error.message});
         }
         else{
-          if(user.password == crypto.createHash('sha256').update(req.param('password')).digest('hex')){
-            req.session.user = user;
-            return res.redirect('/user/profile/'+user.id);
+          if(typeof user == 'undefined'){
+            res.view('user/error',{message: 'Пользователь не найден'});
           }
           else{
-            res.view('user/error',{message: 'Неверный логин или пароль'});
+            if(user.password == crypto.createHash('sha256').update(req.param('password')).digest('hex')){
+              req.session.user = user;
+               if(user.active){
+                 return res.redirect('/user/profile/'+user.id);
+               }
+               else{
+                 return res.redirect('user/email/');          
+               }
+            }
+            else{
+              res.view('user/error',{message: 'Неверный логин или пароль'});
+            }
           }
         }
       });
     }
     else{
-      if(typeof req.session.user == 'undefined'){
-        return res.view();
-      }
-      else{
-        return res.redirect('/user/profile/'+req.session.user.id);
-      }
+      return res.view();
+    }
+  },
+
+  email: function(req, res){
+    if(req.method == 'POST'){
+      var model = req.allParams();
+      var id = req.session.user.id;
+      User.update(id, {email: model.email}).exec(function(error){
+        if(error){
+          res.view('user/error',{message: 'При активации пользователя произошла ошибка: ' + error.message});
+        }
+        else{
+          User.findOne(id).exec(function(error, user){
+            if(error){
+              res.view('user/error',{message: 'При активации пользователя произошла ошибка: ' + error.message});
+            }
+            else{
+              EmailService.sendMail(res,user.id,user.password,model.email);
+            }
+          });
+        }
+      });
+    }
+    else{
+      res.view();
     }
   },
 

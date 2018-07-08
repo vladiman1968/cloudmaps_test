@@ -1,0 +1,15 @@
+﻿extends ../layout
+
+block body
+  nav.navbar.navbar-default
+    .container-fluid
+      .navbar-header
+        span.navbar-brand Ваш адрес электронной почты не подтвержден. Введите новый адрес.
+
+  form.form-horizontal(action="", method="POST")
+    .form-group
+      label.col-sm-3(for="email") Электронная почта
+      .col-sm-9
+        input#email.form-control(type="email", name="email", placeholder="Электронная почта", required)
+    .form-group
+      input(type="submit", value="Сохранить")

@@ -12,10 +12,18 @@ module.exports = function(req, res, next) {
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
   if (req.session.user) {
-    return next();
+    User.findOne({id: req.session.user.id, active: true}).exec(function(error, user){
+      if(error){
+        res.view('user/error',{message: 'Ошибка: ' + error.message});
+      }
+      else{
+        if(typeof user == 'undefined'){
+          return res.redirect('/login');
+        }
+        else{
+          return next();
+        }
+      }
+    });
   }
-
-  // User is not allowed
-  // redirect to login page
-  return res.redirect('/login');
 };
