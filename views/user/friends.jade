@@ -11,6 +11,8 @@
             br
             span online
         td.vmiddle
+          a(href="/user/profile/" + friend.username) Посмотреть профиль
+          br
           a.delete-friend(href="#", data-id=friend.id) Удалить
 else
   span У Вас пока нет друзей

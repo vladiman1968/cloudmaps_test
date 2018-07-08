@@ -116,15 +116,38 @@ module.exports = {
         res.view('user/error',{message: 'Ошибка: ' + error.message});
       }
       else{
-        if(req.session.user.id == user.id){
-          user.session = true;
+        if(typeof user == 'undefined'){
+          return res.redirect('/login');
         }
         else{
-          user.session = false;
+          var id = user.id;
+          if(req.session.user.id == id){
+            user.session = true;
+            res.view({
+              user: _.omit(user, 'password')
+            });
+          }
+          else{
+            Friend.findOne({
+              id_user: req.session.user.id,
+              id_friend: id
+            }).exec(function(error, friend){
+              if(error)
+                res.view('user/error',{message: 'Ошибка: ' + error.message});
+              else{
+                if(typeof friend == 'undefined'){
+                  res.view('user/error',{message: 'Пользователь может смотреть только свой профиль или профили своих друзей.'});
+                }
+                else{
+                  user.session = false;
+                  res.view({
+                    user: _.omit(user, 'password')
+                  });
+                }
+              }
+            });
+          }
         }
-        res.view({
-          user: _.omit(user, 'password')
-        });
       }
     });
   },
