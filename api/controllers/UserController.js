@@ -326,7 +326,14 @@ module.exports = {
       Friend.watch(req);
       User.watch(req);
       if(req.param('session')){
-        User.update(req.session.user.id, {online: true}).exec(function(error){
+        updateParams = {};
+        updateParams.online = true;
+        if(req.param('location') == 'found'){
+          updateParams.lat = req.param('lat');
+          updateParams.lng = req.param('lng');
+        };
+        updateParams.location = req.param('location');
+        User.update(req.session.user.id, updateParams).exec(function(error){
           if(error){
             return res.send({
               success: false,

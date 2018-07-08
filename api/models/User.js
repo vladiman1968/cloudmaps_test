@@ -18,6 +18,9 @@ module.exports = {
     active: { type: 'boolean' },
     password: { type: 'string' },
     online: { type: 'boolean' },
+    lat: { type: 'string' },
+    lng: { type: 'string' },
+    location: { type: 'string' },
     friends: {
       collection: 'friend',
       via: 'id_user'

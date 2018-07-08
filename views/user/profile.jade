@@ -29,6 +29,7 @@ block body
       .panel-heading
         h1.panel-title Карта
       #map.panel-body(style="height: 300px")
+      #user-location Положение пользователя не определено
 
   #newFriends.modal.fade(tabindex='-1', role='dialog', aria-labelledby='newFriendsLabel')
     .modal-dialog(role='document')
@@ -61,13 +62,37 @@ block scripts
       map.on('locationfound', function(e){
         map.setView([e.latitude, e.longitude],13);
         L.marker([e.latitude, e.longitude]).addTo(map);
+        my.lat = e.latitude;
+        my.lng = e.longitude;
+        my.location = 'found';
+        $('#user-location').html('Положение пользователя определено');
       });
 
       map.on('locationerror', function(e){
+        if(my.location == 'found'){ my.location = 'error'; }
+        if(my.location == 'error'){
+          map.setView([my.lat, my.lng], 13);
+          L.marker([my.lat, my.lng]).addTo(map);
+          $('#user-location').html('Предыдущее положение пользователя');
+        }
         console.log(e.message);
       });
 
-      map.locate();
+      if(my.session){
+        map.locate();
+      }
+      else{
+        map.setView([my.lat, my.lng], 13);
+        if(my.location != 'undefined'){
+          L.marker([my.lat, my.lng]).addTo(map);
+          if(my.online && (my.location == 'found')){
+            $('#user-location').html('Положение пользователя определено');
+          }
+          else{
+            $('#user-location').html('Предыдущее положение пользователя');
+          }
+        }
+      }
 
       function get_requests(){
         $.ajax({
