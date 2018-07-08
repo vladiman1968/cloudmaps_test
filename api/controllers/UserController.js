@@ -116,6 +116,12 @@ module.exports = {
         res.view('user/error',{message: 'Ошибка: ' + error.message});
       }
       else{
+        if(req.session.user.id == user.id){
+          user.session = true;
+        }
+        else{
+          user.session = false;
+        }
         res.view({
           user: _.omit(user, 'password')
         });
@@ -265,8 +271,23 @@ module.exports = {
   },
 
   logout: function(req, res){
-    delete req.session.user;
-    return res.redirect('/');
+    if(req.session.user){
+      User.update(req.session.user.id, {online: false}).exec(function(error){
+        if(error){
+          return res.negotiate(error);
+        }
+        else{
+          sails.sockets.blast('user_offline',{
+            id: req.session.user.id
+          });
+          delete req.session.user;
+          return res.redirect('/');
+        };      
+      });
+    }
+    else{
+      return res.redirect('/');
+    }
   },
 
   list: function(req, res){
@@ -303,8 +324,30 @@ module.exports = {
     if(req.isSocket && req.session.user){
       Request.watch(req);
       Friend.watch(req);
+      User.watch(req);
+      if(req.param('session')){
+        User.update(req.session.user.id, {online: true}).exec(function(error){
+          if(error){
+            return res.send({
+              success: false,
+              error: error
+            });
+          }
+          else{
+            sails.sockets.blast('user_online',{
+              id: req.session.user.id
+            });
+            return res.ok();
+          }
+        });
+      }
+      else {
+        return res.ok();
+      }
     }
-    return res.ok();
+    else {
+      return res.ok();
+    }
   },
 
   request: function(req, res){

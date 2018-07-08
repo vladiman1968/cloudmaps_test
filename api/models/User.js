@@ -17,6 +17,7 @@ module.exports = {
     email: { type: 'string' },
     active: { type: 'boolean' },
     password: { type: 'string' },
+    online: { type: 'boolean' },
     friends: {
       collection: 'friend',
       via: 'id_user'

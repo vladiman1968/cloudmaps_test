@@ -185,7 +185,7 @@ block scripts
         }
       });
       
-      io.socket.get('/user/subscribe', function(resData, jwres){
+      io.socket.get('/user/subscribe', my, function(resData, jwres){
         return;
       });
 
@@ -217,6 +217,20 @@ block scripts
 
       io.socket.on('delete_friend', function(data){
         if(my.id == data.id_user || my.id == data.id_friend){
+          get_friends();
+        }
+      });
+
+      io.socket.on('user_online', function(data){
+        if(my.id != data.id_user){
+          get_requests();
+          get_friends();
+        }
+      });
+
+      io.socket.on('user_offline', function(data){
+        if(my.id != data.id_user){
+          get_requests();
           get_friends();
         }
       });

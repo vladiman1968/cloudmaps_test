@@ -1,11 +1,15 @@
-if requests.length
+﻿if requests.length
   table.table.table-striped
     each request in requests
       -var name = [request.firstname, request.lastname].join(' ')
       tr
         td
           img(src="/user/avatar/" + request.id, width="60", height="60" alt=name)
-        td.vmiddle= name
+        td.vmiddle
+          = name
+          if request.online
+            br
+            span online
         td.vmiddle
           a.accept(href="#", data-id=request.id) Принять
           br
